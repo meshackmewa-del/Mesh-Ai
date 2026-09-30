@@ -1,0 +1,56 @@
+import { GoogleGenAI } from '@google/genai';
+
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { messages, mode = 'general' } = req.body || {};
+
+  if (!messages || !Array.isArray(messages)) {
+    return res.status(400).json({ error: 'Invalid payload: messages array expected.' });
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    return res.status(500).json({ error: 'Server misconfiguration: GEMINI_API_KEY environment variable is missing.' });
+  }
+
+  try {
+    const ai = new GoogleGenAI({ apiKey });
+
+    let systemInstruction = "You are Mewa AI, a smart, friendly, and highly capable AI assistant.";
+    if (mode === 'study') {
+      systemInstruction = "You are Mewa AI in Study Mode. Act as an expert tutor: explain concepts clearly, use analogies, and ask a short follow-up question to test understanding.";
+    } else if (mode === 'coding') {
+      systemInstruction = "You are Mewa AI in Coding Mode. Act as a senior engineer: provide clean, well-commented code snippets with brief, direct explanations.";
+    }
+
+    const contents = messages.map(msg => ({
+      role: msg.role === 'user' ? 'user' : 'model',
+      parts: [{ text: msg.text }]
+    }));
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: contents,
+      config: {
+        systemInstruction: systemInstruction,
+        temperature: 0.7,
+      }
+    });
+
+    return res.status(200).json({ text: response.text });
+  } catch (error) {
+    console.error('Mewa AI API Error:', error);
+    return res.status(500).json({ error: 'Mewa AI error: ' + (error.message || 'Unable to process request') });
+  }
+}
