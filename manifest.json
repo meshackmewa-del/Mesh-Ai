@@ -1,0 +1,15 @@
+{
+  "name": "Mewa AI",
+  "short_name": "Mewa AI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#131314",
+  "theme_color": "#131314",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/12222/12222560.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
