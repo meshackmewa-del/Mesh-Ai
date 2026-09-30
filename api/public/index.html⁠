@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Mewa AI</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#131314">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="dark-theme">
+  <div class="app-layout">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <h1 class="brand-title">Mewa AI</h1>
+        <button id="newChatBtn" class="btn primary-btn">+ New Chat</button>
+      </div>
+
+      <div class="mode-container">
+        <label for="modeSelect">Assistant Mode:</label>
+        <select id="modeSelect">
+          <option value="general">💬 General Assistant</option>
+          <option value="study">📚 Study Tutor</option>
+          <option value="coding">💻 Coding Partner</option>
+        </select>
+      </div>
+
+      <div class="chat-list" id="chatList"></div>
+
+      <div class="sidebar-bottom">
+        <button id="themeToggle" class="btn secondary-btn">🌙 Toggle Theme</button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="chat-area">
+      <header class="chat-header">
+        <button id="menuToggle" class="mobile-toggle">☰</button>
+        <h2 id="chatTitle">Mewa AI Workspace</h2>
+      </header>
+
+      <div class="messages" id="messages">
+        <div class="welcome-box">
+          <h1>Welcome to Mewa AI</h1>
+          <p>Select a mode or ask Mewa AI anything to get started.</p>
+        </div>
+      </div>
+
+      <!-- Typing Indicator -->
+      <div id="typingIndicator" class="typing-indicator hidden">
+        <span></span><span></span><span></span> Mewa AI is thinking...
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-area">
+        <textarea id="userInput" placeholder="Message Mewa AI..." rows="1"></textarea>
+        <button id="sendBtn" class="btn send-btn">Send</button>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
